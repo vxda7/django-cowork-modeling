@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div>
+  <h4>이름 : {{user.username}}</h4>
+  
+  <h3>영화정보</h3>
+  {% for movie in user.like_movies.all %}
+    <h5>{{movie.title}}</h5>
+    <h5>{{movie.genres}}</h5>
+  {% endfor %}
+
+  <h3>평점정보</h3>
+  {% for review in user.review_set.all %}
+    <h5>{{review.content}}</h5>
+  {% endfor %}
+
+  <h3>팔로잉 & 팔로워</h3>
+  <h5>팔로잉 : {{user.followings.all}}</h5>
+  <h5>팔로워 : {{user.followers.all}}</h5>
+
+  <h3>영화추천</h3>
+  <h5>자유방식으로 영화 하나 추천하기.</h5>
+
+</div>
+{% endblock%}
