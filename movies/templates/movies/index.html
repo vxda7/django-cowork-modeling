@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
 {% block body %}
-
+    <h1>인덱스 페이지!</h1>
+    {% for movie in movies %}
+        <div>
+            <a href="{% url 'movies:detail' movie.id %}">
+            <img src="{{movie.poster_url}}" width="400" height="600" alt="">
+            </a>
+            {{movie.title}}
+        </div>
+    {% endfor %}
 {% endblock %}

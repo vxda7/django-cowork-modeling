@@ -6,7 +6,8 @@ from django.contrib.auth import get_user_model
 
 class Genre(models.Model):
     name = models.CharField(max_length=20)
-
+    def __str__(self):
+        return self.name
 
 class Movie(models.Model):
     title = models.CharField(max_length=30)
