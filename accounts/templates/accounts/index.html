@@ -3,9 +3,8 @@
 {% block body %}
 <div>
   <h1>유저 목록</h1>
-  <h6>이름을 클릭하면 상세보기 페이지로.</h6>
   {% for user in users%}
-  <h3>{{user.username}}</h3>
+  <h3><a href="{% url 'accounts:detail' user.id%}">{{user.username}}</a></h3>
   {% endfor %}
 </div>
 {% endblock %}
