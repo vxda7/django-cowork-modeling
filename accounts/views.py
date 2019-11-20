@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -55,6 +55,7 @@ def logout(request):
     return redirect('accounts:login')
 
 
+@login_required
 def follow(request, user_pk):
     user = get_object_or_404(get_user_model(), id=user_pk)
     if request.user != user:
