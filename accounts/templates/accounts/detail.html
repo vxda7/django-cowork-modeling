@@ -2,25 +2,83 @@
 
 {% block body %}
 <div>
-  <h4>이름 : {{user.username}}</h4>
-  
-  <h3>영화정보</h3>
-  {% for movie in user.like_movies.all %}
-    <h5>{{movie.title}}</h5>
-    <h5>{{movie.genres}}</h5>
-  {% endfor %}
 
-  <h3>평점정보</h3>
-  {% for review in user.review_set.all %}
-    <h5>{{review.content}}</h5>
-  {% endfor %}
+  <h3 class="text-center"><span class="font-italic">{{target_user.username}}</span>님의 페이지입니다.</h3>
 
-  <h3>팔로잉 & 팔로워</h3>
-  <h5>팔로잉 : {{user.followings.all}}</h5>
-  <h5>팔로워 : {{user.followers.all}}</h5>
+  {% if target_user in user.followings.all %}
+  <a href="{% url 'accounts:follow' target_user.id%}">좋아요 취소</a>
+  {% else %}
+  <a href="{%url 'accounts:follow' target_user.id%}">좋아요</a>
+  {% endif %}
 
-  <h3>영화추천</h3>
-  <h5>자유방식으로 영화 하나 추천하기.</h5>
+  <h3 class="font-weight-bold">평점정보</h3>
+  <div class="my-3">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">내용</th>
+          <th scope="col">점수</th>
+          <th scope="col">영화</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for review in target_user.review_set.all %}
+        <tr>
+          <td>{{review.id}}</td>
+          <td>{{review.content}}</td>
+          <td>{{review.score}}점</td>
+          <td><a href="{% url 'movies:detail' review.movie.id %}">{{review.movie.title}}</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+  <h3 class="font-weight-bold">영화정보</h3>
+  <hr>
+  <div class="col-sm-12 col-md-6 col-lg-3 my-3">
+    {% for movie in target_user.like_movies.all %}
+    <div class="row">
+      <div class="card">
+        <img src="{{movie.poster_url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{movie.title}}</h5>
+          <h5>{{movie.audience}}</h5>
+          <div>
+            {% for genre in movie.genres.all %}
+            <span>{{genre.name}}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <h3 class="font-weight-bold">팔로잉 & 팔로워</h3>
+  <hr>
+  <div class="my-3">
+    <h5>팔로잉 {{target_user.followings.all.count}}명</h5>
+    <div>
+      {% for following in target_user.followings.all %}
+      <h5><a href="{% url 'accounts:detail' following.id %}">{{following.username}}</a></h5>
+      {% endfor %}
+    </div>
+    <h5>팔로워 {{target_user.followers.all.count}}명</h5>
+    <div>
+      {% for follower in target_user.followers.all %}
+      <h5><a href="{% url 'accounts:detail' follower.id %}">{{follower.username}}</a></h5>
+      {% endfor %}
+    </div>
+  </div>
+
+  <h3 class="font-weight-bold">영화추천</h3>
+  <hr>
+  <div class="my-3">
+    <h5>자유방식으로 영화 하나 추천하기.</h5>
+  </div>
 
 </div>
 {% endblock%}
