@@ -1,21 +1,50 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 {% block body %}
-    <h1>디테일 페이지!</h1>
-    <div>
-        <img src="{{movie.poster_url}}" width="400" height="600" alt="">
-        {{movie.title}}
+  <div class="d-flex">
+    <!-- 이미지 -->
+    <div class="mr-3">
+      <img src="{{movie.poster_url}}" width="400" height="600" alt="">
     </div>
-    <form action="{% url 'movies:new' movie.id %}" method="POST">
+    <div>
+      <h1>{{movie.title}}</h1>
+      <form action="{% url 'movies:new' movie.id %}" method="POST">
         {% csrf_token %}
-        {{form}}
-        <input type="submit">
-    </form>
-    {% for review in reviews %}
-        {{review.content}}
-        {{review.score}}
-        <form action="{% url 'movies:delete' movie.id review.id %}">
-            {% csrf_token %}
-            <input type="submit" value="X">
+        {% bootstrap_form form %}
+      <div class="d-flex justify-content-between flex-row-reverse">
+        <input class="btn btn-primary" type="submit">
+      </form>
+        <form action="{% url 'movies:like' movie.id %}" method="POST">
+          {% csrf_token %}
+          {% if user in movie.like_users.all %}
+            <input class="btn bg-transparent" type="submit" value="❤️">    
+          {% else %}
+            <input class="btn bg-transparent" type="submit" value="🖤">    
+          {% endif %}
         </form>
-    {% endfor %}
+      </div>
+      <p class="mx-1 my-2">
+        좋아요: {{movie.like_users.count}}
+      </p>
+      
+      <div>
+        {% for review in reviews %}
+        <div class="d-flex align-items-center">
+          <span class="mr-2">{{review.content}}</span>
+          <span class="mr-2">{{review.score}}점</span>
+          <form action="{% url 'movies:delete' movie.id review.id %}">
+            {% csrf_token %}
+            <input class="btn bg-transparent btn-sm"  type="submit" value="🗑️">
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- 하단 -->
+  <div class="card" style="">
+    <div class="card-body">
+      <p>{{movie.description}}</p>
+    </div>
+  </div>
 {% endblock %}
