@@ -4,11 +4,14 @@
 <div>
 
   <h3 class="text-center"><span class="font-italic">{{target_user.username}}</span>님의 페이지입니다.</h3>
-
-  {% if target_user in user.followings.all %}
-  <a href="{% url 'accounts:follow' target_user.id%}">좋아요 취소</a>
-  {% else %}
-  <a href="{%url 'accounts:follow' target_user.id%}">좋아요</a>
+  {% if target_user != user %}
+  <div class="text-center my-3">
+    {% if target_user in user.followings.all%}
+    <a class="btn btn-danger" href="{% url 'accounts:follow' target_user.id%}">언팔로우</a>
+    {% else %}
+    <a class="btn btn-primary" href="{%url 'accounts:follow' target_user.id%}">팔로우</a>
+    {% endif %}
+  </div>
   {% endif %}
 
   <h3 class="font-weight-bold">평점정보</h3>

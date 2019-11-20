@@ -57,10 +57,10 @@ def logout(request):
 
 def follow(request, user_pk):
     user = get_object_or_404(get_user_model(), id=user_pk)
-
-    if user not in request.user.followings.all():
-        request.user.followings.add(user)
-    else:
-        request.user.followings.remove(user)
+    if request.user != user:
+        if user not in request.user.followings.all():
+            request.user.followings.add(user)
+        else:
+            request.user.followings.remove(user)
 
     return redirect('accounts:detail', user_pk)
