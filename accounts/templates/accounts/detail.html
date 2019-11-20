@@ -41,9 +41,9 @@
 
   <h3 class="font-weight-bold">영화정보</h3>
   <hr>
-  <div class="col-sm-12 col-md-6 col-lg-3 my-3">
+  <div class="row my-3">
     {% for movie in target_user.like_movies.all %}
-    <div class="row">
+    <div class="col-12 col-md-6 col-lg-3">
       <div class="card">
         <img src="{{movie.poster_url}}" class="card-img-top" alt="...">
         <div class="card-body">
