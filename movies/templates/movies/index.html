@@ -1,12 +1,43 @@
 {% extends 'base.html' %}
 {% block body %}
-    <h1>인덱스 페이지!</h1>
-    {% for movie in movies %}
-        <div>
-            <a href="{% url 'movies:detail' movie.id %}">
-            <img src="{{movie.poster_url}}" width="400" height="600" alt="">
-            </a>
-            {{movie.title}}
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+        <img src="http://ccm3.net/wp-content/uploads/01-77.png" class="d-block w-100" alt="...">
         </div>
+        {% for movie in movies %}
+        <div class="carousel-item">
+        <a href="{% url 'movies:detail' movie.id %}">
+        <img src="{{movie.poster_url}}" class="d-block w-100" alt="...">
+        </a>
+        </div>
+        {% endfor %}
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+    <!-- 영화 목록 -->
+    <div class="row">
+    {% for movie in movies %}    
+      <div class="col-4 my-2">
+        <div class="card" style="">
+          <a href="{% url 'movies:detail' movie.id %}">
+          <img src="{{movie.poster_url}}" class="card-img-top" alt="...">
+          </a>
+        </div>
+      </div>
     {% endfor %}
+    </div>
 {% endblock %}
